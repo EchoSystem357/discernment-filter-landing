@@ -1,0 +1,1 @@
+{"version":2,"name":"discernment-filter-landing","builds":[{"src":"index.html","use":"@vercel/static"}],"routes":[{"src":"/(.*)","dest":"/index.html"}]}
