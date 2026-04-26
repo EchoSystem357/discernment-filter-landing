@@ -235,7 +235,7 @@
         </div>
         
         <div class="form-section">
-            <form action="https://chadnicely.com/discernment-filter" method="POST" id="leadForm">
+            <form id="leadForm">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
                     <input type="text" id="firstName" name="first_name" required>
@@ -246,14 +246,45 @@
                     <input type="email" id="email" name="email" required>
                 </div>
                 
-                <input type="hidden" name="tag" value="DISCERNMENT_FILTER_LEAD">
-                <input type="hidden" name="redirect" value="https://discernment-filter-landing-lasharync4-1108s-projects.vercel.app/thanks.html">
-                
-                <button type="submit" class="cta-button">Send Me The Filter</button>
+                <button type="submit" class="cta-button" id="submitBtn">Send Me The Filter</button>
             </form>
             
             <p class="trust-line">No fluff. Just a tool you'll actually use.</p>
         </div>
+        
+        <script>
+            document.getElementById('leadForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const btn = document.getElementById('submitBtn');
+                btn.textContent = 'Sending...';
+                btn.disabled = true;
+                
+                const formData = new FormData(this);
+                const data = {
+                    first_name: formData.get('first_name'),
+                    email: formData.get('email')
+                };
+                
+                // Submit to Vercel API endpoint
+                fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    // Redirect to thank you page
+                    window.location.href = 'https://discernment-filter-landing-lasharync4-1108s-projects.vercel.app/thanks.html';
+                })
+                .catch(error => {
+                    // Still redirect on error to ensure good UX
+                    window.location.href = 'https://discernment-filter-landing-lasharync4-1108s-projects.vercel.app/thanks.html';
+                });
+            });
+        </script>
         
         <footer>
             <div class="brand">UCDI Leadership</div>
