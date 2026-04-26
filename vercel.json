@@ -1,13 +1,12 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "thanks.html", "use": "@vercel/static" },
-    { "src": "api/**/*.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
+  "functions": {
+    "api/submit.js": {
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { "source": "/api/submit", "destination": "/api/submit.js" }
   ],
   "env": {
     "POPLINKS_API_KEY": "gywXCt7Hob78siol50583T5sSV9iFM09"
